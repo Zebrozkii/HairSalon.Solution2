@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using HairSalon.Models;
 using System.Collections.Generic;
 using System;
 
-namespace ToDoList.Controllers
+namespace HairSalon.Controllers
 {
-    public class ItemsController : Controller
+    public class ClientsController : Controller
     {
         [HttpGet("/clients")]
         public ActionResult Index()

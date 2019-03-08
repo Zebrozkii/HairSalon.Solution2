@@ -1,0 +1,8 @@
+<h1>Are you sure you want to delete @Model["client"].GetName()?</h1>
+
+<form action='/clients/deleted' method='post'>
+    <button type='submit'>YES</button>
+</form>
+<form action='/clients/@Model["client"].GetId()'>
+    <button type='submit'>NO</button>
+</form>

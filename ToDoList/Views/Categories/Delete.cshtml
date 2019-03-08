@@ -1,9 +1,0 @@
-<h1>Are you sure you want to delete @Model["category"].GetName()?</h1>
-
-<form action='/categories/@Model["category"].GetId()' method='post'>
-    <input id='categoryId' name='categoryId' type='hidden' value='@Model["category"].GetId()'>
-    <button type='submit'>YES</button>
-</form>
-<form action='/categories'>
-    <button type='submit'>NO</button>
-</form>

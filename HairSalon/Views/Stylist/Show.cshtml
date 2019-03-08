@@ -1,0 +1,36 @@
+@using ToDoList.Models;
+
+
+@if (@Model["stylistClients"].Count != 0)
+{
+<h3>Here are all the clients in this stylist:</h3>
+
+<a href="/stylists/@Model["stylist"].GetId()/due_date">Sort by due date</a>
+<a href="/stylists/@Model["stylist"].GetId()/name">Sort by name</a>
+<ol>
+@foreach (var client in @Model["stylistClients"])
+{
+  <li><a href='/clients/@client.GetId()'>@client.GetName()</a> Due Date: @client.GetDueDate().ToString("yyyy-MM-dd")</li>
+}
+</ol>
+}
+
+<h4>Add a client to this stylist:</h4>
+
+<form action='/stylists/@Model["stylist"].GetId()/clients/new' method='post'>
+  <label for='clientId'>Select a client</label>
+  <select id='clientId' name='clientId' type='text'>
+
+    @foreach (var client in @Model["allClients"])
+    {
+      <option value='@client.GetId()'>@client.GetName()</option>
+    }
+
+  </select>
+  <button type='submit'>Add</button>
+</form>
+
+<p><a href='/clients/new'>Add a new client</a></p>
+<p><a href="/stylists/delete">Delete this stylist</a></p>
+<p><a href='/stylists'>Return to stylist list</a></p>
+<p><a href='/'>Return to Main Page</a></p>

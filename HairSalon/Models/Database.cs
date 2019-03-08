@@ -1,8 +1,8 @@
 using System;
 using MySql.Data.MySqlClient;
-using ToDoList;
+using HairSalon;
 
-namespace ToDoList.Models
+namespace HairSalon.Models
 {
     public class DB
     {
