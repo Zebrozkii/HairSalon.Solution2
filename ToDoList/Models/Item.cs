@@ -4,6 +4,12 @@ using System;
 
 namespace ToDoList.Models
 {
+
+this is the page your on start here category == stylist, and items = clients remember
+
+
+
+
     public class Item
     {
         private string _description;
@@ -176,7 +182,7 @@ namespace ToDoList.Models
             cmd.Parameters.Add(description);
             MySqlParameter dueDate = new MySqlParameter();
             dueDate.ParameterName = "@dueDate";
-            dueDate.Value = newDueDate; //newDueDate.ToString("yyyy-MM-dd HH:mm:ss.fff"); 
+            dueDate.Value = newDueDate; //newDueDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
             cmd.Parameters.Add(dueDate);
             cmd.ExecuteNonQuery();
             _description = newDescription;
@@ -185,7 +191,7 @@ namespace ToDoList.Models
             if (conn != null)
             {
                 conn.Dispose();
-            } 
+            }
         }
 
         public List<Category> GetCategories()
