@@ -5,10 +5,6 @@ using System;
 namespace ToDoList.Models
 {
 
-this is the page your on start here category == stylist, and items = clients remember
-
-
-
 
     public class Client
     {
@@ -16,11 +12,11 @@ this is the page your on start here category == stylist, and items = clients rem
         private DateTime _due_date;
         private int _id;
 
-        public Item(string name, DateTime due_date, int id = 0)
+        public Client(string name, DateTime due_date, int id = 0)
         {
             _name = name;
             _id = id;
-            _due_date = due_date;
+            _due_date = _due_date;
         }
 
         public string GetName()
@@ -43,9 +39,9 @@ this is the page your on start here category == stylist, and items = clients rem
             return _id;
         }
 
-        public static List<Clients> GetAll()
+        public static List<Client> GetAll()
         {
-            List<Clients> allClients = new List<Clients> { };
+            List<Client> allClients = new List<Client> { };
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
@@ -137,7 +133,7 @@ this is the page your on start here category == stylist, and items = clients rem
             {
                 Client newClient = (Client)otherClient;
                 bool idEquality = (this.GetId() == newClient.GetId());
-                bool descriptionEquality = (this.GetDescription() == newClient.GetDescription());
+                bool nameEquality = (this.GetName() == newClient.GetDescription());
                 bool dueDateEquality = (this.GetDueDate() == newClient.GetDueDate());
                 return (idEquality && descriptionEquality && dueDateEquality);
             }
@@ -148,11 +144,11 @@ this is the page your on start here category == stylist, and items = clients rem
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO items (description, due_date) VALUES (@description, @due_date);";
-            MySqlParameter description = new MySqlParameter();
-            description.ParameterName = "@description";
-            description.Value = this._description;
-            cmd.Parameters.Add(description);
+            cmd.CommandText = @"INSERT INTO clients (name, due_date) VALUES (@name, @due_date);";
+            MySqlParameter name = new MySqlParameter();
+            name.ParameterName = "@name";
+            name.Value = this._name;
+            cmd.Parameters.Add(name);
             MySqlParameter dueDate = new MySqlParameter();
             dueDate.ParameterName = "@due_date";
             dueDate.Value = _due_date;//.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -166,26 +162,26 @@ this is the page your on start here category == stylist, and items = clients rem
             }
         }
 
-        public void Edit(string newDescription, DateTime newDueDate)
+        public void Edit(string newName, DateTime newDueDate)
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE items SET description = @newDescription, due_date = @dueDate WHERE id = @searchId;";
+            cmd.CommandText = @"UPDATE clients SET name = @newName, due_date = @dueDate WHERE id = @searchId;";
             MySqlParameter searchId = new MySqlParameter();
             searchId.ParameterName = "@searchId";
             searchId.Value = _id;
             cmd.Parameters.Add(searchId);
-            MySqlParameter description = new MySqlParameter();
-            description.ParameterName = "@newDescription";
-            description.Value = newDescription;
-            cmd.Parameters.Add(description);
+            MySqlParameter name = new MySqlParameter();
+            name.ParameterName = "@newName";
+            name.Value = newName;
+            cmd.Parameters.Add(name);
             MySqlParameter dueDate = new MySqlParameter();
             dueDate.ParameterName = "@dueDate";
             dueDate.Value = newDueDate; //newDueDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
             cmd.Parameters.Add(dueDate);
             cmd.ExecuteNonQuery();
-            _description = newDescription;
+            _name = newName;
             _due_date = newDueDate;
             conn.Close();
             if (conn != null)
@@ -194,50 +190,50 @@ this is the page your on start here category == stylist, and items = clients rem
             }
         }
 
-        public List<Category> GetCategories()
+        public List<Stylist> GetCategories()
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT categories.* FROM items
-                JOIN categories_items ON (items.id = categories_items.item_id)
-                JOIN categories ON (categories_items.category_id = categories.id)
-                WHERE items.id = @ItemId;";
-            MySqlParameter itemIdParameter = new MySqlParameter();
-            itemIdParameter.ParameterName = "@ItemId";
-            itemIdParameter.Value = _id;
-            cmd.Parameters.Add(itemIdParameter);
+            cmd.CommandText = @"SELECT stylist.* FROM clients
+                JOIN stylist_clients ON (clients.id = stylist_clients.client_id)
+                JOIN stylists ON (stylist_clients.stylist_id = stylist.id)
+                WHERE clients.id = @ClientId;";
+            MySqlParameter clientIdParameter = new MySqlParameter();
+            clientIdParameter.ParameterName = "@ClientId";
+            clientIdParameter.Value = _id;
+            cmd.Parameters.Add(clientIdParameter);
             var rdr = cmd.ExecuteReader() as MySqlDataReader;
-            List<Category> categories = new List<Category> {};
+            List<Stylist> stylist = new List<Stylist> {};
             while(rdr.Read())
             {
-                int thisCategoryId = rdr.GetInt32(0);
-                string categoryName = rdr.GetString(1);
-                Category foundCategory = new Category(categoryName, thisCategoryId);
-                categories.Add(foundCategory);
+                int thisStylistId = rdr.GetInt32(0);
+                string stylistName = rdr.GetString(1);
+                Stylist foundStylist = new Stylist(stylistName, thisStylistId);
+                stylist.Add(foundStylist);
             }
             conn.Close();
             if (conn != null)
             {
                 conn.Dispose();
             }
-            return categories;
+            return stylist;
         }
 
-        public void AddCategory(Category newCategory)
+        public void AddStylist(Stylist newStylist)
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO categories_items (category_id, item_id) VALUES (@CategoryId, @ItemId);";
-            MySqlParameter category_id = new MySqlParameter();
-            category_id.ParameterName = "@CategoryId";
-            category_id.Value = newCategory.GetId();
-            cmd.Parameters.Add(category_id);
-            MySqlParameter item_id = new MySqlParameter();
-            item_id.ParameterName = "@ItemId";
-            item_id.Value = _id;
-            cmd.Parameters.Add(item_id);
+            cmd.CommandText = @"INSERT INTO stylists_clients (stylist_id, client_id) VALUES (@StylistId, @ClientId);";
+            MySqlParameter stylist_id = new MySqlParameter();
+            stylist_id.ParameterName = "@StylistId";
+            stylist_id.Value = newStylist.GetId();
+            cmd.Parameters.Add(stylist_id);
+            MySqlParameter client_id = new MySqlParameter();
+            client_id.ParameterName = "@ClientId";
+            client_id.Value = _id;
+            cmd.Parameters.Add(client_id);
             cmd.ExecuteNonQuery();
             conn.Close();
             if (conn != null)

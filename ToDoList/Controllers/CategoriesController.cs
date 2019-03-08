@@ -12,7 +12,7 @@ namespace ToDoList.Controllers
         public ActionResult Index()
         {
             List<Stylist> allStylists = Stylist.GetAll();
-            return View(allCategories);
+            return View(allStylists);
         }
 
         [HttpGet("/stylists/new")]

@@ -89,7 +89,7 @@ namespace ToDoList.Models
             return newStylist;
         }
 
-        public List<Client> GetItems(string sortBy = "")
+        public List<Client> GetClients(string sortBy = "")
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
@@ -118,7 +118,7 @@ namespace ToDoList.Models
                 int thisClientId = rdr.GetInt32(0);
                 string clientName = rdr.GetString(1);
                 DateTime clientDueDate = rdr.GetDateTime(2);
-                Client foundClient = new Client(clientName, itemDueDate, thisClientId);
+                Client foundClient = new Client(clientName, clientDueDate, thisClientId);
                 clients.Add(foundClient);
             }
             conn.Close();
