@@ -10,27 +10,27 @@ this is the page your on start here category == stylist, and items = clients rem
 
 
 
-    public class Item
+    public class Client
     {
-        private string _description;
+        private string _name;
         private DateTime _due_date;
         private int _id;
 
-        public Item(string description, DateTime due_date, int id = 0)
+        public Item(string name, DateTime due_date, int id = 0)
         {
-            _description = description;
+            _name = name;
             _id = id;
             _due_date = due_date;
         }
 
-        public string GetDescription()
+        public string GetName()
         {
-            return _description;
+            return _name;
         }
 
-        public void SetDescription(string newDescription)
+        public void SetDescription(string newName)
         {
-            _description = newDescription;
+            _name = newName;
         }
 
         public DateTime GetDueDate()
@@ -43,28 +43,28 @@ this is the page your on start here category == stylist, and items = clients rem
             return _id;
         }
 
-        public static List<Item> GetAll()
+        public static List<Clients> GetAll()
         {
-            List<Item> allItems = new List<Item> { };
+            List<Clients> allClients = new List<Clients> { };
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM items;";
+            cmd.CommandText = @"SELECT * FROM clients;";
             MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
             while (rdr.Read())
             {
-                int itemId = rdr.GetInt32(0);
-                string itemDescription = rdr.GetString(1);
-                DateTime itemDueDate = rdr.GetDateTime(2);
-                Item newItem = new Item(itemDescription, itemDueDate, itemId);
-                allItems.Add(newItem);
+                int clientId = rdr.GetInt32(0);
+                string clientName = rdr.GetString(1);
+                DateTime clientDueDate = rdr.GetDateTime(2);
+                Client newClient = new Client(clientName, clientDueDate, clientId);
+                allClients.Add(newClient);
             }
             conn.Close();
             if (conn != null)
             {
                 conn.Dispose();
             }
-            return allItems;
+            return allClients;
         }
 
         public static void ClearAll()
@@ -72,7 +72,7 @@ this is the page your on start here category == stylist, and items = clients rem
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM items;";
+            cmd.CommandText = @"DELETE FROM clients;";
             cmd.ExecuteNonQuery();
             conn.Close();
             if (conn != null)
@@ -86,11 +86,11 @@ this is the page your on start here category == stylist, and items = clients rem
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM items WHERE id = @itemId; DELETE FROM categories_items WHERE item_id = @itemId;";
-            MySqlParameter itemIdParameter = new MySqlParameter();
-            itemIdParameter.ParameterName = "@itemId";
-            itemIdParameter.Value = this.GetId();
-            cmd.Parameters.Add(itemIdParameter);
+            cmd.CommandText = @"DELETE FROM clients WHERE id = @clientId; DELETE FROM stylist_clients WHERE clients_id = @clientId;";
+            MySqlParameter clientIdParameter = new MySqlParameter();
+            clientIdParameter.ParameterName = "@clientId";
+            clientIdParameter.Value = this.GetId();
+            cmd.Parameters.Add(clientIdParameter);
             cmd.ExecuteNonQuery();
             if (conn != null)
             {
@@ -98,47 +98,47 @@ this is the page your on start here category == stylist, and items = clients rem
             }
         }
 
-        public static Item Find(int id)
+        public static Client Find(int id)
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM items WHERE id = (@searchId);";
+            cmd.CommandText = @"SELECT * FROM clients WHERE id = (@searchId);";
             MySqlParameter searchId = new MySqlParameter();
             searchId.ParameterName = "@searchId";
             searchId.Value = id;
             cmd.Parameters.Add(searchId);
             var rdr = cmd.ExecuteReader() as MySqlDataReader;
-            int itemId = 0;
-            string itemName = "";
-            DateTime itemDueDate = Convert.ToDateTime("01/01/2000");
+            int clientId = 0;
+            string clientName = "";
+            DateTime clientDueDate = Convert.ToDateTime("01/01/2000");
             while (rdr.Read())
             {
-                itemId = rdr.GetInt32(0);
-                itemName = rdr.GetString(1);
-                itemDueDate = rdr.GetDateTime(2);
+                clientId = rdr.GetInt32(0);
+                clientName = rdr.GetString(1);
+                clientDueDate = rdr.GetDateTime(2);
             }
-            Item newItem = new Item(itemName, itemDueDate, itemId);
+            Client newClient = new Client(clientName, clientDueDate, clientId);
             conn.Close();
             if (conn != null)
             {
                 conn.Dispose();
             }
-            return newItem;
+            return newClient;
         }
 
-        public override bool Equals(System.Object otherItem)
+        public override bool Equals(System.Object otherClient)
         {
-            if (!(otherItem is Item))
+            if (!(otherClient is Client))
             {
                 return false;
             }
             else
             {
-                Item newItem = (Item)otherItem;
-                bool idEquality = (this.GetId() == newItem.GetId());
-                bool descriptionEquality = (this.GetDescription() == newItem.GetDescription());
-                bool dueDateEquality = (this.GetDueDate() == newItem.GetDueDate());
+                Client newClient = (Client)otherClient;
+                bool idEquality = (this.GetId() == newClient.GetId());
+                bool descriptionEquality = (this.GetDescription() == newClient.GetDescription());
+                bool dueDateEquality = (this.GetDueDate() == newClient.GetDueDate());
                 return (idEquality && descriptionEquality && dueDateEquality);
             }
         }
