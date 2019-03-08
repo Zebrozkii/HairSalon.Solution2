@@ -11,7 +11,7 @@ namespace ToDoList.Models
 
         public Stylist(string stylistName, int id = 0)
         {
-            _name = stylistyName;
+            _name = stylistName;
             _id = id;
         }
 
@@ -173,9 +173,9 @@ namespace ToDoList.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = new MySqlCommand("DELETE FROM stylists Where id = @StylistId; DELETE FROM stylists_clients WHERE stylist_id = @StylistId;", conn);
-            MySqlParameter categoryId = new MySqlParameter();
-            categoryId.ParameterName = "@StylistId";
-            categoryId.Value = this.GetId();
+            MySqlParameter stylistId = new MySqlParameter();
+            stylistId.ParameterName = "@StylistId";
+            stylistId.Value = this.GetId();
             cmd.Parameters.Add(stylistId);
             cmd.ExecuteNonQuery();
             if (conn != null)

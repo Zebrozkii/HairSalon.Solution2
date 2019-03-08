@@ -133,9 +133,9 @@ namespace ToDoList.Models
             {
                 Client newClient = (Client)otherClient;
                 bool idEquality = (this.GetId() == newClient.GetId());
-                bool nameEquality = (this.GetName() == newClient.GetDescription());
+                bool nameEquality = (this.GetName() == newClient.GetName());
                 bool dueDateEquality = (this.GetDueDate() == newClient.GetDueDate());
-                return (idEquality && descriptionEquality && dueDateEquality);
+                return (idEquality && nameEquality && dueDateEquality);
             }
         }
 
@@ -190,7 +190,7 @@ namespace ToDoList.Models
             }
         }
 
-        public List<Stylist> GetCategories()
+        public List<Stylist> GetStylists()
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();

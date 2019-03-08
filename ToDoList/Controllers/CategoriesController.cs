@@ -41,8 +41,8 @@ namespace ToDoList.Controllers
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Stylist selectedStylist = Stylist.Find(id);
-            List<Clients> StylistClients = selectedStylist.GetClients(sortBy);
-            List<Clients> allClients = Clients.GetAll();
+            List<Client> stylistClients = selectedStylist.GetClients(sortBy);
+            List<Client> allClients = Client.GetAll();
             model.Add("stylist", selectedStylist);
             // Console.WriteLine("category {0} {1}", selectedCategory.GetId(), selectedCategory.GetName());
             model.Add("stylistClients", stylistClients);
