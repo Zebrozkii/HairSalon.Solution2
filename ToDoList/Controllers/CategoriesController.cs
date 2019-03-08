@@ -11,7 +11,7 @@ namespace ToDoList.Controllers
         [HttpGet("/stylists")]
         public ActionResult Index()
         {
-            List<Stylist> allStylists = Category.GetAll();
+            List<Stylist> allStylists = Stylist.GetAll();
             return View(allCategories);
         }
 
@@ -21,43 +21,43 @@ namespace ToDoList.Controllers
             return View();
         }
 
-        [HttpPost("/categories")]
-        public ActionResult Create(string categoryName)
+        [HttpPost("/stylists")]
+        public ActionResult Create(string stylistName)
         {
-            Category newCategory = new Category(categoryName);
-            newCategory.Save();
-            List<Category> allCategories = Category.GetAll();
-            return View("Index", allCategories);
+            Stylist newStylist = new Stylist(stylistName);
+            newStylist.Save();
+            List<Stylist> allStylists = Stylist.GetAll();
+            return View("Index", allStylists);
         }
 
-        [HttpGet("/categories/{id}/{sortBy}")]
+        [HttpGet("/stylists/{id}/{sortBy}")]
         public ActionResult SortByDueDate(int id, string sortBy)
         {
             return RedirectToAction("Show", new { id = id, sortBy });
         }
 
-        [HttpGet("/categories/{id}")]
+        [HttpGet("/stylists/{id}")]
         public ActionResult Show(int id, string sortBy = "")
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
-            Category selectedCategory = Category.Find(id);
-            List<Item> categoryItems = selectedCategory.GetItems(sortBy);
-            List<Item> allItems = Item.GetAll();
-            model.Add("category", selectedCategory);
+            Stylist selectedStylist = Stylist.Find(id);
+            List<Clients> StylistClients = selectedStylist.GetClients(sortBy);
+            List<Clients> allClients = Clients.GetAll();
+            model.Add("stylist", selectedStylist);
             // Console.WriteLine("category {0} {1}", selectedCategory.GetId(), selectedCategory.GetName());
-            model.Add("categoryItems", categoryItems);
+            model.Add("stylistClients", stylistClients);
             // Console.WriteLine("items {0}", categoryItems.Count);
-            model.Add("allItems", allItems);
+            model.Add("allClients", allClients);
             return View(model);
         }
 
-        [HttpPost("/categories/{categoryId}/items/new")]
-        public ActionResult AddItem(int categoryId, int itemId)
+        [HttpPost("/stylists/{stylistId}/clients/new")]
+        public ActionResult AddItem(int stylistId, int clientId)
         {
-            Category category = Category.Find(categoryId);
-            Item item = Item.Find(itemId);
-            category.AddItem(item);
-            return RedirectToAction("Show", new { id = categoryId });
+            Stylist stylist = Stylist.Find(stylistId);
+            Client client = Client.Find(clientId);
+            stylist.AddClient(client);
+            return RedirectToAction("Show", new { id = stylistId });
         }
     }
 }

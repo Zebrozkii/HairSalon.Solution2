@@ -7,95 +7,95 @@ namespace ToDoList.Controllers
 {
     public class ItemsController : Controller
     {
-        [HttpGet("/items")]
+        [HttpGet("/clients")]
         public ActionResult Index()
         {
-            List<Item> allItems = Item.GetAll();
-            return View(allItems);
+            List<Client> allClients = Client.GetAll();
+            return View(allClients);
         }
 
-        [HttpGet("/items/new")]
+        [HttpGet("/clients/new")]
         public ActionResult New()
         {
             return View();
         }
 
-        [HttpPost("/items")]
-        public ActionResult Create(string itemDescription, DateTime dueDate)
+        [HttpPost("/clients")]
+        public ActionResult Create(string clientName, DateTime dueDate)
         {
-            Item newItem = new Item(itemDescription, dueDate);
-            newItem.Save();
-            List<Item> allItems = Item.GetAll();
-            return View("Index", allItems);
+            Client newClient = new Client(clientName, dueDate);
+            newClient.Save();
+            List<Client> allClients = Client.GetAll();
+            return View("Index", allClients);
         }
 
-        [HttpGet("/items/{id}")]
+        [HttpGet("/clients/{id}")]
         public ActionResult Show(int id)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
-            Item selectedItem = Item.Find(id);
-            List<Category> itemCategories = selectedItem.GetCategories();
-            List<Category> allCategories = Category.GetAll();
-            model.Add("selectedItem", selectedItem);
-            model.Add("itemCategories", itemCategories);
-            model.Add("allCategories", allCategories);
+            Client selectedClient = Client.Find(id);
+            List<Stylist> clientStylists = selectedClient.GetStylists();
+            List<Stylist> allStylists = Stylist.GetAll();
+            model.Add("selectedClient", selectedClient);
+            model.Add("clientStylists", clientStylists);
+            model.Add("allStylist", allStylists);
             return View(model);
         }
 
-        [HttpPost("/items/{itemId}/categories/new")]
-        public ActionResult AddCategory(int itemId, int categoryId)
+        [HttpPost("/clients/{clientId}/stylists/new")]
+        public ActionResult AddCategory(int clientId, int stylistId)
         {
-            Item item = Item.Find(itemId);
-            Category category = Category.Find(categoryId);
-            item.AddCategory(category);
-            return RedirectToAction("Show",  new { id = itemId });
+            Client client = Client.Find(clientId);
+            Stylist stylist = Stylist.Find(stylistId);
+            client.AddStylist(stylist);
+            return RedirectToAction("Show",  new { id = clientId });
         }
 
-        [HttpPost("/items/delete")]
+        [HttpPost("/clients/delete")]
         public ActionResult DeleteAll()
         {
-            Item.ClearAll();
+            Client.ClearAll();
             return View();
         }
 
-        [HttpGet("/items/{itemId}/edit")]
-        public ActionResult Edit(int categoryId, int itemId)
+        [HttpGet("/clients/{clientId}/edit")]
+        public ActionResult Edit(int stylistId, int clientId)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
-            Item item = Item.Find(itemId);
-            model.Add("item", item);
+            Client client = Client.Find(clientId);
+            model.Add("client", client);
             return View(model);
         }
 
-        [HttpPost("/items/{itemId}")]
-        public ActionResult Update(int categoryId, int itemId, string newDescription, DateTime newDueDate)
+        [HttpPost("/clients/{clientId}")]
+        public ActionResult Update(int stylistId, int clientId, string newName, DateTime newDueDate)
         {
-            Item item = Item.Find(itemId);
-            item.Edit(newDescription, newDueDate);
+            Client client = Client.Find(clientId);
+            client.Edit(newName, newDueDate);
             Dictionary<string, object> model = new Dictionary<string, object>();
-            List<Category> itemCategories = item.GetCategories();
-            List<Category> allCategories = Category.GetAll();
-            model.Add("selectedItem", item);
-            model.Add("itemCategories", itemCategories);
-            model.Add("allCategories", allCategories);
+            List<Stylist> clientStylists = client.GetStylists();
+            List<Stylist> allStylists = Stylist.GetAll();
+            model.Add("selectedClient", client);
+            model.Add("itemStylists", clientStylists);
+            model.Add("allStylist", allStylists);
             return View("Show", model);
         }
 
-        [HttpGet("/items/{itemId}/delete")]
-        public ActionResult Delete(int categoryId, int itemId)
+        [HttpGet("/clients/{clientId}/delete")]
+        public ActionResult Delete(int stylistId, int clientId)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
-            Item item = Item.Find(itemId);
-            item.Delete();
-            model.Add("item", item);
+            Client client = Client.Find(clientId);
+            client.Delete();
+            model.Add("client", client);
             return View(model);
         }
 
-        [HttpPost("/items/deleted")]
-        public ActionResult DeleteItem(int itemId)
+        [HttpPost("/clients/deleted")]
+        public ActionResult DeleteClient(int clientId)
         {
-            Item item = Item.Find(itemId);
-            item.Delete();
+            Client client = Client.Find(clientId);
+            client.Delete();
             return RedirectToAction("Index");
         }
     }
