@@ -1,6 +1,6 @@
 <h1>Are you sure you want to delete @Model["stylist"].GetName()?</h1>
 
-<form action='/stylists/@Model["stylist"].GetId()' method='post'>
+<form action='/stylists/delete' method='post'>
     <input id='stylistId' name='stylistId' type='hidden' value='@Model["stylist"].GetId()'>
     <button type='submit'>YES</button>
 </form>
