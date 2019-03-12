@@ -21,9 +21,9 @@ namespace HairSalon.Controllers
         }
 
         [HttpPost("/clients")]
-        public ActionResult Create(string clientName, DateTime dueDate)
+        public ActionResult Create(string clientName)
         {
-            Client newClient = new Client(clientName, dueDate);
+            Client newClient = new Client(clientName);
             newClient.Save();
             List<Client> allClients = Client.GetAll();
             return View("Index", allClients);
@@ -68,10 +68,10 @@ namespace HairSalon.Controllers
         }
 
         [HttpPost("/clients/{clientId}")]
-        public ActionResult Update(int stylistId, int clientId, string newName, DateTime newDueDate)
+        public ActionResult Update(int stylistId, int clientId, string newName)
         {
             Client client = Client.Find(clientId);
-            client.Edit(newName, newDueDate);
+            client.Edit(newName);
             Dictionary<string, object> model = new Dictionary<string, object>();
             List<Stylist> clientStylists = client.GetStylists();
             List<Stylist> allStylists = Stylist.GetAll();

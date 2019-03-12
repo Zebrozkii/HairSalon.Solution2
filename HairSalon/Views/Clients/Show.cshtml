@@ -1,9 +1,9 @@
 @using ToDoList.Models;
 
-<h1>To Do List Item Details: </h1>
+<h1>Client Details: </h1>
 
 <h2>Client: @Model["selectedClient"].GetName()</h2>
-<h2>Due Date: @Model["selectedClient"].GetDueDate().ToString("yyyy-MM-dd")</h2>
+
 
 @if (@Model["clientStylists"].Count != 0)
 {
