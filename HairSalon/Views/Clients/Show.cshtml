@@ -5,20 +5,12 @@
 <h2>Client: @Model["selectedClient"].GetName()</h2>
 
 
-@if (@Model["clientStylists"].Count != 0)
-{
-    <h4>This client has these stylists:</h4>
-    <ul>
-    @foreach (Stylist stylist in @Model["clientStylists"])
-    {
-        <li>@stylist.GetName()</li>
-    }
-    </ul>
-}
+<h3>@Model["clientStylists"].GetName()</h3>
+
 
 <h4>Add a stylist to this client:</h4>
 
-<form action='/clients/@Model["selectedClients"].GetId()/stylists/new' method='post'>
+<form action='/clients/@Model["selectedClient"].GetId()/stylists/new' method='post'>
     <label for='stylistId'>Select a stylist</label>
     <select id='stylistId' name='stylistId' type='text'>
     @foreach (var stylist in @Model["allStylists"])

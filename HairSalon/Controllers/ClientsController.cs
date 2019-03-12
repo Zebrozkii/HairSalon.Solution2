@@ -19,7 +19,13 @@ namespace HairSalon.Controllers
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Client selectedClient = Client.Find(id);
+            int stylistId = selectedClient.GetStylistId();
+            Stylist clientStylist = Stylist.Find(stylistId);
+            List<Stylist> allStylists = Stylist.GetAll();
             model.Add("selectedClient", selectedClient);
+            model.Add("clientStylists", clientStylist);
+            model.Add("allStylists", allStylists);
+
             return View(model);
         }
 
@@ -77,7 +83,7 @@ namespace HairSalon.Controllers
           client.Delete();
           return View("Delete");
         }
-        
+
         [HttpPost("/clients/deleted")]
         public ActionResult DeleteClient(int clientId)
         {

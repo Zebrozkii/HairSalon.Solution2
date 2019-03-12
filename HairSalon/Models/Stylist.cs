@@ -67,7 +67,7 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM stylists WHERE id = (@searchId);";
+            cmd.CommandText = @"SELECT * FROM stylist WHERE id = (@searchId);";
             MySqlParameter searchId = new MySqlParameter();
             searchId.ParameterName = "@searchId";
             searchId.Value = id;
@@ -143,7 +143,7 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO stylists (name) VALUES (@name);";
+            cmd.CommandText = @"INSERT INTO stylist (name) VALUES (@name);";
             MySqlParameter name = new MySqlParameter();
             name.ParameterName = "@name";
             name.Value = this._name;
@@ -161,7 +161,7 @@ namespace HairSalon.Models
         {
             MySqlConnection conn = DB.Connection();
             conn.Open();
-            MySqlCommand cmd = new MySqlCommand("DELETE FROM stylists Where id = @StylistId; DELETE FROM stylists_clients WHERE stylist_id = @StylistId;", conn);
+            MySqlCommand cmd = new MySqlCommand("DELETE FROM stylist Where id = @StylistId; DELETE FROM stylist_clients WHERE stylist_id = @StylistId;", conn);
             MySqlParameter stylistId = new MySqlParameter();
             stylistId.ParameterName = "@StylistId";
             stylistId.Value = this.GetId();
@@ -177,7 +177,7 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE stylists SET name = @editName WHERE id = @searchId;";
+            cmd.CommandText = @"UPDATE stylist SET name = @editName WHERE id = @searchId;";
             MySqlParameter searchId = new MySqlParameter();
             searchId.ParameterName = "@searchId";
             searchId.Value = _id;
@@ -200,7 +200,7 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO stylists_clients (stylist_id, client_id) VALUES (@StylistId, @ClientId);";
+            cmd.CommandText = @"INSERT INTO stylist_clients (stylist_id, client_id) VALUES (@StylistId, @ClientId);";
             MySqlParameter stylist_id = new MySqlParameter();
             stylist_id.ParameterName = "@StylistId";
             stylist_id.Value = _id;
@@ -221,10 +221,10 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT specialty.* FROM stylists
-                JOIN stylists_specialties ON (stylist_id = stylists_specialties.stylist_id)
-                JOIN specialty ON (stylists_specialties.specialty_id = specialty.id)
-                WHERE stylists.id = @StylistId;";
+            cmd.CommandText = @"SELECT specialty.* FROM stylist
+                JOIN stylist_specialty ON (stylist.id = stylist_specialty.stylist_id)
+                JOIN specialty ON (stylist_specialty.specialty_id = specialty.id)
+                WHERE stylist.id = @StylistId;";
             MySqlParameter stylistId = new MySqlParameter();
             stylistId.ParameterName = "@StylistId";
             stylistId.Value = _id;
@@ -250,7 +250,7 @@ namespace HairSalon.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO stylists_specialties (stylist_id, specialty_id) VALUES (@StylistId, @SpecialtyId);";
+            cmd.CommandText = @"INSERT INTO stylists_specialty (stylist_id, specialty_id) VALUES (@StylistId, @SpecialtyId);";
             MySqlParameter stylist_id = new MySqlParameter();
             stylist_id.ParameterName = "@StylistId";
             stylist_id.Value = _id;

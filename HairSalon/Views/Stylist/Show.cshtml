@@ -5,7 +5,6 @@
 {
 <h3>Here are all the clients in this stylist:</h3>
 
-<a href="/stylists/@Model["stylist"].GetId()/due_date">Sort by due date</a>
 <a href="/stylists/@Model["stylist"].GetId()/name">Sort by name</a>
 <ol>
 @foreach (var client in @Model["stylistClients"])
@@ -17,11 +16,11 @@
 
 <h4>Add a client to this stylist:</h4>
 
-<form action='/stylists/@Model["stylist"].GetId()/clients/new' method='post'>
+<form action='/stylists/@Model["selectedStylist"].GetId()/clients/new' method='post'>
   <label for='clientId'>Select a client</label>
   <select id='clientId' name='clientId' type='text'>
 
-    @foreach (var client in @Model["allClients"])
+    @foreach (var client in @Model["stylistClients"])
     {
       <option value='@client.GetId()'>@client.GetName()</option>
     }
