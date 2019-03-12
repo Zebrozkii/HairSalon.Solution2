@@ -26,22 +26,15 @@ namespace HairSalon.Controllers
         {
             Stylist newStylist = new Stylist(stylistName);
             newStylist.Save();
-            List<Stylist> allStylists = Stylist.GetAll();
-            return View("Index", allStylists);
-        }
-
-        [HttpGet("/stylists/{id}/{sortBy}")]
-        public ActionResult SortByDueDate(int id, string sortBy)
-        {
-            return RedirectToAction("Show", new { id = id, sortBy });
+            return View("Index");
         }
 
         [HttpGet("/stylists/{id}")]
-        public ActionResult Show(int id, string sortBy = "")
+        public ActionResult Show(int id)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Stylist selectedStylist = Stylist.Find(id);
-            List<Client> stylistClients = selectedStylist.GetClients(sortBy);
+            List<Client> stylistClients = selectedStylist.GetClients(); ///<<<<---------------------------------start here
             List<Client> allClients = Client.GetAll();
             model.Add("stylist", selectedStylist);
             // Console.WriteLine("category {0} {1}", selectedCategory.GetId(), selectedCategory.GetName());
