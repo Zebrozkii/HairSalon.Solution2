@@ -21,6 +21,28 @@ namespace HairSalon.Models
     {
       return _specialty;
     }
+    public static List<Specialty> GetAll()
+    {
+        List<Specialty> allSpecialties = new List<Specialty> {};
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM specialty;";
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while (rdr.Read())
+        {
+            int specialtyId = rdr.GetInt32(0);
+            string specialtyName = rdr.GetString(1);
+            Specialty newSpecialty = new Specialty(specialtyName, specialtyId);
+            allSpecialties.Add(newSpecialty);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+        return allSpecialties;
+    }
     public static void ClearAll()
     {
       List<Specialty> allSpecialties = new List<Specialty>{};

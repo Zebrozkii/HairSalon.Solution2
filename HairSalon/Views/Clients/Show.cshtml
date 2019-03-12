@@ -1,4 +1,4 @@
-@using ToDoList.Models;
+@using HairSalon.Models;
 
 <h1>Client Details: </h1>
 
@@ -23,7 +23,7 @@
     <select id='stylistId' name='stylistId' type='text'>
     @foreach (var stylist in @Model["allStylists"])
     {
-        <option value='@stylists.GetId()'>@stylist.GetName()</option>
+        <option value='@stylist.GetId()'>@stylist.GetName()</option>
     }
     </select>
     <button type='submit'>Add</button>

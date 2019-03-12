@@ -1,4 +1,4 @@
-@using ToDoList.Models;
+@using HairSalon.Models;
 
 
 @if (@Model["stylistClients"].Count != 0)
@@ -10,7 +10,7 @@
 <ol>
 @foreach (var client in @Model["stylistClients"])
 {
-  <li><a href='/clients/@client.GetId()'>@client.GetName()</a> Due Date: @client.GetDueDate().ToString("yyyy-MM-dd")</li>
+  <li><a href='/clients/@client.GetId()'>@client.GetName()</a> </li>
 }
 </ol>
 }
