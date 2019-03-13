@@ -44,19 +44,15 @@ namespace HairSalon.Controllers
           model.Add("allSpecialty", allSpecialty);
           return View(model);
         }
-
-        [HttpPost("/stylists/{stylistId}/clients")]
-        public ActionResult Create(string clientName, int stylistId)
-        {
-            Dictionary<string, object> model = new Dictionary<string, object>();
-            Stylist foundStylist = Stylist.Find(stylistId);
-            Client newClient = new Client(clientName, stylistId);
-            newClient.Save();
-            List<Client> stylistClients = foundStylist.GetClients();
-            model.Add("clients", stylistClients);
-            model.Add("stylist", foundStylist);
-            return View("Show", model);
+        [HttpPost("/stylists/{stylistId}/clients/new")]
+            public ActionResult AddClient(int stylistId, int clientId)
+            {
+              Stylist stylist = Stylist.Find(stylistId);
+              Client client = Client.Find(clientId);
+              stylist.AddClient(client);
+              return RedirectToAction("Show", new { id = stylistId });
         }
+
 
         [HttpPost("/stylists/{stylistId}/delete")]
         public ActionResult Delete(int stylistId)
