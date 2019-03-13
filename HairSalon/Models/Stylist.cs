@@ -246,7 +246,7 @@ namespace HairSalon.Models
             {
                 conn.Dispose();
             }
-            return specialties;
+            return specialty;
         }
         public void AddSpecialty(Specialty newSpecialty)
         {
