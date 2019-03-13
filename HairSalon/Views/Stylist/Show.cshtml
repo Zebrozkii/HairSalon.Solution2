@@ -10,7 +10,7 @@
 {
     <h4>This client has these stylists:</h4>
     <ul>
-    @foreach (Stylist stylist in @Model["clientStylist"])
+    @foreach (Stylist stylist in @Model["clientsStylist"])
     {
         <li>@stylist.GetName()</li>
     }

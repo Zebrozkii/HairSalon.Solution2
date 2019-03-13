@@ -31,16 +31,18 @@ namespace HairSalon.Controllers
         [HttpGet("/stylists/{id}")]
         public ActionResult Show(int id)
         {
-            Dictionary<string, object> model = new Dictionary<string, object>();
-            Stylist selectedStylist = Stylist.Find(id);
-            List<Client> stylistClients = selectedStylist.GetClients();
-            List<Specialty> specialtyStylists = selectedStylist.GetSpecialties();
-            List<Specialty> allSpecialties = Specialty.GetAll();
-            model.Add("stylist", selectedStylist);
-            model.Add("clients", stylistClients);
-            model.Add("specialtyStylists", specialtyStylists);
-            model.Add("allSpecialties", allSpecialties);
-            return View(model);
+          Dictionary<string, object> model = new Dictionary<string, object>();
+          Stylist selectedStylist = Stylist.Find(id);
+          List<Client> stylistClient = selectedStylist.GetClients();
+          List<Client> allClients = Client.GetAll();
+          List<Specialty> stylistSpecialty = selectedStylist.GetSpecialties();
+          List<Specialty> allSpecialty = Specialty.GetAll();
+          model.Add("stylist", selectedStylist);
+          model.Add("stylistClient", stylistClient);
+          model.Add("allClients", allClients);
+          model.Add("stylistSpecialty", stylistSpecialty);
+          model.Add("allSpecialty", allSpecialty);
+          return View(model);
         }
 
         [HttpPost("/stylists/{stylistId}/clients")]
