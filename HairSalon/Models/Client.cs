@@ -149,11 +149,10 @@ namespace HairSalon.Models
             name.ParameterName = "@name";
             name.Value = this._name;
             cmd.Parameters.Add(name);
-            MySqlParameter stylistId = new MySqlParameter();
-            stylistId.ParameterName = "@GetStylistId";
-            // stylistId.Value = this._stylistId;
-            cmd.Parameters.Add(stylistId);
-            cmd.ExecuteNonQuery();
+            // // stylistId.ParameterName = "@GetStylistId";
+            // // // stylistId.Value = this._stylistId;
+            // // cmd.Parameters.Add(stylistId);
+            // cmd.ExecuteNonQuery();
             _id = (int) cmd.LastInsertedId;
             conn.Close();
             if (conn != null)
@@ -169,7 +168,7 @@ namespace HairSalon.Models
           cmd.CommandText = @"SELECT stylist.* FROM clients
           JOIN stylist_clients ON (clients.id = stylist_clients.clients_id)
           JOIN stylist ON (stylist_clients.stylist_id = stylist.id)
-          WHERE clients.id = @ClientId;";
+          WHERE client.id = @ClientId;";
 
           MySqlParameter clientId = new MySqlParameter();
           clientId.ParameterName = "@ClientId";

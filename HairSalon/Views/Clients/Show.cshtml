@@ -1,7 +1,6 @@
 <h1>Client Details: </h1>
 
 <h2>Client Name: @Model["selectedClient"].GetName()</h2>
-<h2>Client Phone: @Model["selectedClient"].GetPhoneNumber()</h2>
 
 
 @if (@Model["clientStylists"].Count != 0)
@@ -29,9 +28,9 @@
 </form>
 
 <a href='/clients/@Model["selectedClient"].GetId()/edit'>Edit this client</a>
-<br><br>
+
 <a href='/clients/new'>Add another client</a>
-<br><br>
+
 <form action="/clients/@Model["selectedClient"].GetId()/delete" method="post">
   <button type="submit">Delete this client</button>
 </form>
