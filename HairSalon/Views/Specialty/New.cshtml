@@ -1,10 +1,13 @@
-<h1>Add a specialty</h1>
+<h1>Hair Salon</h1>
+</div>
+<h1>Add a new specialty</h1>
 
-<form action="/specialty" method="post">
-  <label for="specialtyName">specialty name</label>
-  <input id="specialtyName" name="specialtyName" type="text">
-  <button type="submit">Add</button>
+<form action='/specialties' method='post'>
+
+  <label for='newSpecialtyName'>Specialty Name: </label>
+  <input id='newSpecialtyName' name='newSpecialtyName' type='text' required>
+
+  <button type='submit'>Add Specialty</button>
 </form>
 
-<p><a href="/">Back home</a></p>
-<p><a href="/specialty">Back to specialties.</a></p>
+<p><a href="/specialties">View all specialties</a></p>

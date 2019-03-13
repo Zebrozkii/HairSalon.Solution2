@@ -43,6 +43,7 @@ namespace HairSalon.Models
         }
         return allSpecialties;
     }
+
     public static void ClearAll()
     {
       List<Specialty> allSpecialties = new List<Specialty>{};
@@ -64,6 +65,28 @@ namespace HairSalon.Models
       conn.Dispose();
       }
     }
+    public void Edit(string newSpecialty)
+     {
+       MySqlConnection conn = DB.Connection();
+       conn.Open();
+       var cmd = conn.CreateCommand() as MySqlCommand;
+       cmd.CommandText = @"UPDATE specialty SET name = @newName WHERE id = @searchId;";
+       MySqlParameter searchId = new MySqlParameter();
+       searchId.ParameterName = "@searchId";
+       searchId.Value = _id;
+       cmd.Parameters.Add(searchId);
+       MySqlParameter specialty = new MySqlParameter();
+       specialty.ParameterName = "@newName";
+       specialty.Value = newSpecialty;
+       cmd.Parameters.Add(specialty);
+       cmd.ExecuteNonQuery();
+       _specialty = newSpecialty;
+       conn.Close();
+       if (conn != null)
+       {
+         conn.Dispose();
+       }
+     }
 
     public void Save()
     {
@@ -98,6 +121,10 @@ namespace HairSalon.Models
         return (idEquality && nameEquality);
       }
     }
+    public override int GetHashCode()
+    {
+        return this.GetId().GetHashCode();
+    }
     public static Specialty Find(int id)
     {
       MySqlConnection conn = DB.Connection();
@@ -124,6 +151,23 @@ namespace HairSalon.Models
       }
       return newSpecialty;
     }
+    public void Delete(int id)
+     {
+       MySqlConnection conn = DB.Connection();
+       conn.Open();
+       var cmd = conn.CreateCommand() as MySqlCommand;
+       cmd.CommandText = @"DELETE FROM specialty WHERE id = @thisId;DELETE FROM stylists_specialties WHERE specialty_id = @thisId;";
+       MySqlParameter thisId = new MySqlParameter();
+       thisId.ParameterName = "@thisId";
+       thisId.Value = id;
+       cmd.Parameters.Add(thisId);
+       cmd.ExecuteNonQuery();
+       conn.Close();
+       if (conn != null)
+       {
+         conn.Dispose();
+       }
+     }
     public List<Stylist> GetStylists()
     {
         MySqlConnection conn = DB.Connection();
